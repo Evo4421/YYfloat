@@ -1,0 +1,423 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>YYfloat 项目文档</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>YYfloat</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Tables">Tables</a></li>
+<li><a href="#Fields">Fields</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/commands.check.html">commands.check</a></li>
+  <li><a href="../modules/commands.notice.html">commands.notice</a></li>
+  <li><a href="../modules/commands.plugins.html">commands.plugins</a></li>
+  <li><a href="../modules/commands.remove.html">commands.remove</a></li>
+  <li><a href="../modules/commands.update.html">commands.update</a></li>
+  <li><a href="../modules/commands.use.html">commands.use</a></li>
+  <li><strong>config</strong></li>
+  <li><a href="../modules/core.html">core</a></li>
+  <li><a href="../modules/plugin.html">plugin</a></li>
+</ul>
+<h2>Scripts</h2>
+<ul class="nowrap">
+  <li><a href="../scripts/yyfloat.html">yyfloat</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>config</code></h1>
+<p>YYfloat 全局配置模块
+ 集中定义路径、常量与远端地址，避免魔术字符串散落各处。</p>
+<p></p>
+
+
+<h2><a href="#Tables">Tables</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Config.REQUIRED_FILES">Config.REQUIRED_FILES</a></td>
+	<td class="summary">插件必需文件清单（相对插件目录）</td>
+	</tr>
+</table>
+<h2><a href="#Fields">Fields</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Config.VERSION">Config.VERSION</a></td>
+	<td class="summary">当前 YYfloat 版本号</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Config.HOME">Config.HOME</a></td>
+	<td class="summary">用户主目录</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Config.ROOT">Config.ROOT</a></td>
+	<td class="summary">YYfloat 数据根目录</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Config.DIST_DIR">Config.DIST_DIR</a></td>
+	<td class="summary">分发二进制存放目录</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Config.BACKUPS_DIR">Config.BACKUPS_DIR</a></td>
+	<td class="summary">备份目录</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Config.PLUGINS_DIR">Config.PLUGINS_DIR</a></td>
+	<td class="summary">插件安装目录</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Config.SELF">Config.SELF</a></td>
+	<td class="summary">可执行文件名称</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Config.SYSTEM">Config.SYSTEM</a></td>
+	<td class="summary">当前平台标识（用于选择远端清单）</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Config.PLUGINS_LIST">Config.PLUGINS_LIST</a></td>
+	<td class="summary">插件元数据清单文件</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Config.VERSION_FILE">Config.VERSION_FILE</a></td>
+	<td class="summary">本地版本记录文件</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Config.MARKER_FILE">Config.MARKER_FILE</a></td>
+	<td class="summary">插件目录内的归属标记文件
+ 用于区分"YYfloat 管理的插件目录"与"被外部占用的同名目录"。</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Config.MANIFEST_URL">Config.MANIFEST_URL</a></td>
+	<td class="summary">远端清单地址</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Config.PLUGINS_URL">Config.PLUGINS_URL</a></td>
+	<td class="summary">远端插件表地址</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Config.NOTICE_URL">Config.NOTICE_URL</a></td>
+	<td class="summary">公告接口地址</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Config.HTTP_TIMEOUT">Config.HTTP_TIMEOUT</a></td>
+	<td class="summary">网络请求默认超时（秒）</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Config.DOWNLOAD_RETRY">Config.DOWNLOAD_RETRY</a></td>
+	<td class="summary">下载重试次数</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Config.PLUGIN_NAME_PATTERN">Config.PLUGIN_NAME_PATTERN</a></td>
+	<td class="summary">插件名称合法字符</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Tables"></a>Tables</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "Config.REQUIRED_FILES"></a>
+    <strong>Config.REQUIRED_FILES</strong>
+    </dt>
+    <dd>
+    插件必需文件清单（相对插件目录）
+
+
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Fields"></a>Fields</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "Config.VERSION"></a>
+    <strong>Config.VERSION</strong>
+    </dt>
+    <dd>
+    当前 YYfloat 版本号
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Config.HOME"></a>
+    <strong>Config.HOME</strong>
+    </dt>
+    <dd>
+    用户主目录
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Config.ROOT"></a>
+    <strong>Config.ROOT</strong>
+    </dt>
+    <dd>
+    YYfloat 数据根目录
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Config.DIST_DIR"></a>
+    <strong>Config.DIST_DIR</strong>
+    </dt>
+    <dd>
+    分发二进制存放目录
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Config.BACKUPS_DIR"></a>
+    <strong>Config.BACKUPS_DIR</strong>
+    </dt>
+    <dd>
+    备份目录
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Config.PLUGINS_DIR"></a>
+    <strong>Config.PLUGINS_DIR</strong>
+    </dt>
+    <dd>
+    插件安装目录
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Config.SELF"></a>
+    <strong>Config.SELF</strong>
+    </dt>
+    <dd>
+    可执行文件名称
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Config.SYSTEM"></a>
+    <strong>Config.SYSTEM</strong>
+    </dt>
+    <dd>
+    当前平台标识（用于选择远端清单）
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Config.PLUGINS_LIST"></a>
+    <strong>Config.PLUGINS_LIST</strong>
+    </dt>
+    <dd>
+    插件元数据清单文件
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Config.VERSION_FILE"></a>
+    <strong>Config.VERSION_FILE</strong>
+    </dt>
+    <dd>
+    本地版本记录文件
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Config.MARKER_FILE"></a>
+    <strong>Config.MARKER_FILE</strong>
+    </dt>
+    <dd>
+    插件目录内的归属标记文件
+ 用于区分"YYfloat 管理的插件目录"与"被外部占用的同名目录"。
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Config.MANIFEST_URL"></a>
+    <strong>Config.MANIFEST_URL</strong>
+    </dt>
+    <dd>
+    远端清单地址
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Config.PLUGINS_URL"></a>
+    <strong>Config.PLUGINS_URL</strong>
+    </dt>
+    <dd>
+    远端插件表地址
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Config.NOTICE_URL"></a>
+    <strong>Config.NOTICE_URL</strong>
+    </dt>
+    <dd>
+    公告接口地址
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Config.HTTP_TIMEOUT"></a>
+    <strong>Config.HTTP_TIMEOUT</strong>
+    </dt>
+    <dd>
+    网络请求默认超时（秒）
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Config.DOWNLOAD_RETRY"></a>
+    <strong>Config.DOWNLOAD_RETRY</strong>
+    </dt>
+    <dd>
+    下载重试次数
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Config.PLUGIN_NAME_PATTERN"></a>
+    <strong>Config.PLUGIN_NAME_PATTERN</strong>
+    </dt>
+    <dd>
+    插件名称合法字符
+
+
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2026-09-26 17:38:24 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
