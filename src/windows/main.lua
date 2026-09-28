@@ -10,7 +10,6 @@
 
 package.path = package.path .. ";./?.lua;./lib/?.lua;./lib/sub/?.lua;./lib/?.lua"
 
-local lfs = require "lfs"
 local argparse = require "argparse"
 
 local config = require "config"
@@ -21,17 +20,17 @@ local args_util = require "commands.args_util"
 local function bootstrap()
   local dirs = { config.ROOT, config.DIST_DIR, config.BACKUPS_DIR, config.PLUGINS_DIR }
   for i = 1, #dirs do
-    if lfs.attributes(dirs[i], "mode") ~= "directory" then
-      lfs.mkdir(dirs[i])
+    if not core.is_dir(dirs[i]) then
+      core.mkdir_p(dirs[i])
     end
   end
 
-  if lfs.attributes(config.VERSION_FILE, "mode") ~= "file" then
+  if not core.file_exists(config.VERSION_FILE) then
     local f = io.open(config.VERSION_FILE, "w")
     if f then f:write(tostring(config.VERSION)) f:close() end
   end
 
-  if lfs.attributes(config.PLUGINS_LIST, "mode") ~= "file" then
+  if not core.file_exists(config.PLUGINS_LIST) then
     core.write_json(config.PLUGINS_LIST, {})
   end
 end
@@ -101,9 +100,6 @@ remove:argument("plugin_name", "插件名称"):args(1)
 local args = parser:parse()
 
 --- 命令分发
--- 注意: argparse 0.7.x 将子命令与参数"扁平"存入结果表,
--- 因此这里传入整个 args, 由 args_util 兼容读取。
--- `plugins update` 与顶层 `update` 都会置 update=true, 以 args.plugins 区分。
 if args.plugins then
   dispatch("plugins", args)
 elseif args.update then

@@ -1,0 +1,563 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>YYfloat 项目文档</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>YYfloat</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/commands.check.html">commands.check</a></li>
+  <li><a href="../modules/commands.notice.html">commands.notice</a></li>
+  <li><a href="../modules/commands.plugins.html">commands.plugins</a></li>
+  <li><a href="../modules/commands.remove.html">commands.remove</a></li>
+  <li><a href="../modules/commands.update.html">commands.update</a></li>
+  <li><a href="../modules/commands.use.html">commands.use</a></li>
+  <li><a href="../modules/config.html">config</a></li>
+  <li><strong>core</strong></li>
+  <li><a href="../modules/plugin.html">plugin</a></li>
+</ul>
+<h2>Scripts</h2>
+<ul class="nowrap">
+  <li><a href="../scripts/yyfloat.html">yyfloat</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>core</code></h1>
+<p>YYfloat 底层工具模块
+ 提供文件复制/软链接、HTTP 请求、JSON 读写、路径与名称校验等基础能力。</p>
+<p></p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Exports.validate_name">Exports.validate_name (name)</a></td>
+	<td class="summary">校验插件名称是否合法
+ 拒绝空值、路径分隔符、`..`、隐藏文件等危险输入。</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Exports.shell_escape">Exports.shell_escape (s)</a></td>
+	<td class="summary">对字符串做 Shell 单引号转义，防止命令注入
+ 原理：将内部 `'` 替换为 `'\''`，整体用单引号包裹。</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Exports.read_json">Exports.read_json (path)</a></td>
+	<td class="summary">读取并解析 JSON 文件</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Exports.write_json">Exports.write_json (path, data)</a></td>
+	<td class="summary">原子写入 JSON 文件</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Exports.copy">Exports.copy (file, target)</a></td>
+	<td class="summary">流式复制二进制文件</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Exports.retarget">Exports.retarget (target, linkpath)</a></td>
+	<td class="summary">原子替换软链接指向</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Exports.which">Exports.which (cmd)</a></td>
+	<td class="summary">查找命令的绝对路径</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Exports.sha256">Exports.sha256 (path)</a></td>
+	<td class="summary">获取文件 SHA256</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Exports.backup">Exports.backup (file, target, metadata)</a></td>
+	<td class="summary">备份文件到指定目录</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Exports.http_get">Exports.http_get (url, opts)</a></td>
+	<td class="summary">统一 HTTPS GET 请求</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Exports.download">Exports.download (url, target)</a></td>
+	<td class="summary">下载文件</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Exports.json_append">Exports.json_append (file, content)</a></td>
+	<td class="summary">向 JSON 数组文件追加一条记录</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Exports.comparison">Exports.comparison (field, comparator, ...)</a></td>
+	<td class="summary">多表字段比较：找出字段值不一致或缺失的项</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "Exports.validate_name"></a>
+    <strong>Exports.validate_name (name)</strong>
+    </dt>
+    <dd>
+    校验插件名称是否合法
+ 拒绝空值、路径分隔符、`..`、隐藏文件等危险输入。
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.4">string</a></span>
+         待校验名称
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">boolean</span></span>
+        是否合法
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Exports.shell_escape"></a>
+    <strong>Exports.shell_escape (s)</strong>
+    </dt>
+    <dd>
+    对字符串做 Shell 单引号转义，防止命令注入
+ 原理：将内部 `'` 替换为 `'\''`，整体用单引号包裹。
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">s</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.4">string</a></span>
+         原始字符串
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.4">string</a></span>
+        转义后的字符串
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Exports.read_json"></a>
+    <strong>Exports.read_json (path)</strong>
+    </dt>
+    <dd>
+    读取并解析 JSON 文件
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">path</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.4">string</a></span>
+         文件路径
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.6">table</a> or <span class="type">nil</span></span>
+        解析结果（失败返回 nil）</li>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.4">string</a> or <span class="type">nil</span></span>
+        错误说明</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Exports.write_json"></a>
+    <strong>Exports.write_json (path, data)</strong>
+    </dt>
+    <dd>
+    原子写入 JSON 文件
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">path</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.4">string</a></span>
+         目标路径
+        </li>
+        <li><span class="parameter">data</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.6">table</a></span>
+         待序列化数据
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">boolean</span></span>
+        是否成功</li>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.4">string</a> or <span class="type">nil</span></span>
+        错误说明</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Exports.copy"></a>
+    <strong>Exports.copy (file, target)</strong>
+    </dt>
+    <dd>
+    流式复制二进制文件
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">file</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.4">string</a></span>
+         源文件路径
+        </li>
+        <li><span class="parameter">target</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.4">string</a></span>
+         目标文件路径
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">boolean</span></span>
+        是否成功</li>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.4">string</a> or <span class="type">nil</span></span>
+        错误说明</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Exports.retarget"></a>
+    <strong>Exports.retarget (target, linkpath)</strong>
+    </dt>
+    <dd>
+    原子替换软链接指向
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">target</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.4">string</a></span>
+         新的指向目标
+        </li>
+        <li><span class="parameter">linkpath</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.4">string</a></span>
+         软链接路径
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">boolean</span></span>
+        是否成功</li>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.4">string</a> or <span class="type">nil</span></span>
+        错误说明</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Exports.which"></a>
+    <strong>Exports.which (cmd)</strong>
+    </dt>
+    <dd>
+    查找命令的绝对路径
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">cmd</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.4">string</a></span>
+         命令名
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.4">string</a> or <span class="type">nil</span></span>
+        命令完整路径
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Exports.sha256"></a>
+    <strong>Exports.sha256 (path)</strong>
+    </dt>
+    <dd>
+    获取文件 SHA256
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">path</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.4">string</a></span>
+         文件路径
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.4">string</a> or <span class="type">nil</span></span>
+        十六进制摘要（失败返回 nil）
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Exports.backup"></a>
+    <strong>Exports.backup (file, target, metadata)</strong>
+    </dt>
+    <dd>
+    备份文件到指定目录
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">file</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.4">string</a></span>
+         源文件路径
+        </li>
+        <li><span class="parameter">target</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.4">string</a></span>
+         备份根目录
+        </li>
+        <li><span class="parameter">metadata</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.6">table</a></span>
+         元数据（写入 metadata.json）
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">boolean</span></span>
+        是否成功</li>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.4">string</a> or <span class="type">nil</span></span>
+        错误说明</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Exports.http_get"></a>
+    <strong>Exports.http_get (url, opts)</strong>
+    </dt>
+    <dd>
+    统一 HTTPS GET 请求
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">url</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.4">string</a></span>
+         请求地址
+        </li>
+        <li><span class="parameter">opts</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.6">table</a> or <span class="type">nil</span></span>
+         可选参数 { timeout = 秒 }
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.4">string</a> or <span class="type">nil</span></span>
+        响应体</li>
+        <li>
+           <span class="types"><span class="type">number</span> or <span class="type">nil</span></span>
+        HTTP 状态码</li>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.4">string</a> or <span class="type">nil</span></span>
+        错误说明</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Exports.download"></a>
+    <strong>Exports.download (url, target)</strong>
+    </dt>
+    <dd>
+    下载文件
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">url</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.4">string</a></span>
+         下载地址
+        </li>
+        <li><span class="parameter">target</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.4">string</a></span>
+         保存路径
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">boolean</span></span>
+        是否成功</li>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.4">string</a> or <span class="type">nil</span></span>
+        错误说明</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Exports.json_append"></a>
+    <strong>Exports.json_append (file, content)</strong>
+    </dt>
+    <dd>
+    向 JSON 数组文件追加一条记录
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">file</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.4">string</a></span>
+         JSON 文件路径
+        </li>
+        <li><span class="parameter">content</span>
+            <span class="types"><span class="type">any</span></span>
+         追加内容
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">boolean</span></span>
+        是否成功</li>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.4">string</a> or <span class="type">nil</span></span>
+        错误说明</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Exports.comparison"></a>
+    <strong>Exports.comparison (field, comparator, ...)</strong>
+    </dt>
+    <dd>
+    多表字段比较：找出字段值不一致或缺失的项
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">field</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.4">string</a></span>
+         比较的字段名
+        </li>
+        <li><span class="parameter">comparator</span>
+            <span class="types"><span class="type">function</span> or <span class="type">nil</span></span>
+         自定义比较函数（默认相等比较）
+        </li>
+        <li><span class="parameter">...</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.6">table</a></span>
+         任意数量的表
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.4/manual.html#6.6">table</a> or <span class="type">nil</span></span>
+        差异列表（完全一致返回 nil）
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
+<i style="float:right;">Last updated 2026-09-26 17:38:24 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

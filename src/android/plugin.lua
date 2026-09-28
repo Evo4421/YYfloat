@@ -6,7 +6,6 @@
 -- 避免模块加载期读文件导致"首次运行崩溃"与"元数据过期(stale)"问题。
 -- @module plugin
 
-local lfs = require "lfs"
 
 local config = require "config"
 local core = require "core"
@@ -32,16 +31,16 @@ function Exports.exist(plugin_name)
   if not list[plugin_name] then return false end
 
   local plugin_path = config.PLUGINS_DIR .. "/" .. plugin_name
-  if lfs.attributes(plugin_path, "mode") ~= "directory" then return false end
+  if not core.is_dir(plugin_path) then return false end
 
   -- 归属标记缺失 → 目录被其他程序占用
-  if lfs.attributes(plugin_path .. "/" .. config.MARKER_FILE, "mode") ~= "file" then
+  if not core.file_exists(plugin_path .. "/" .. config.MARKER_FILE) then
     return "occupied"
   end
 
   -- 必需文件缺失 → 插件损坏
   for i = 1, #config.REQUIRED_FILES do
-    if lfs.attributes(plugin_path .. config.REQUIRED_FILES[i], "mode") ~= "file" then
+    if not core.file_exists(plugin_path .. config.REQUIRED_FILES[i]) then
       return "damaged"
     end
   end
@@ -92,7 +91,7 @@ function Exports.open(name, args)
   end
 
   local script_path = config.PLUGINS_DIR .. "/" .. name .. "/start.sh"
-  if lfs.attributes(script_path, "mode") ~= "file" then
+  if not core.file_exists(script_path) then
     return false, "[!] 找不到启动脚本: " .. script_path
   end
 

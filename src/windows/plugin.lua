@@ -6,7 +6,6 @@
 -- 避免模块加载期读文件导致"首次运行崩溃"与"元数据过期(stale)"问题。
 -- @module plugin
 
-local lfs = require "lfs"
 
 local config = require "config"
 local core = require "core"
@@ -31,17 +30,17 @@ function Exports.exist(plugin_name)
   local list = get_list()
   if not list[plugin_name] then return false end
 
-  local plugin_path = config.PLUGINS_DIR .. "/" .. plugin_name
-  if lfs.attributes(plugin_path, "mode") ~= "directory" then return false end
+  local plugin_path = config.PLUGINS_DIR .. "\\" .. plugin_name
+  if not core.is_dir(plugin_path) then return false end
 
   -- 归属标记缺失 → 目录被其他程序占用
-  if lfs.attributes(plugin_path .. "/" .. config.MARKER_FILE, "mode") ~= "file" then
+  if not core.file_exists(plugin_path .. "\\" .. config.MARKER_FILE) then
     return "occupied"
   end
 
   -- 必需文件缺失 → 插件损坏
   for i = 1, #config.REQUIRED_FILES do
-    if lfs.attributes(plugin_path .. config.REQUIRED_FILES[i], "mode") ~= "file" then
+    if not core.file_exists(plugin_path .. config.REQUIRED_FILES[i]) then
       return "damaged"
     end
   end
@@ -82,8 +81,9 @@ function Exports.search(data, query)
 end
 
 --- 启动插件
+-- 从 manifest.json 读取 windows-start 配置项作为启动命令
 -- @tparam string name 插件名称
--- @tparam table args 传给插件的参数列表
+-- @tparam table args 参数列表
 -- @treturn boolean 是否成功
 -- @treturn string|nil 错误说明
 function Exports.open(name, args)
@@ -91,23 +91,30 @@ function Exports.open(name, args)
     return false, "[!] 非法的插件名称: " .. tostring(name)
   end
 
-  local script_path = config.PLUGINS_DIR .. "/" .. name .. "/start.sh"
-  if lfs.attributes(script_path, "mode") ~= "file" then
-    return false, "[!] 找不到启动脚本: " .. script_path
+  local plugin_dir = config.PLUGINS_DIR .. "\\" .. name
+  local manifest, merr = core.read_json(plugin_dir .. "\\manifest.json")
+  if not manifest then
+    return false, "[!] 无法读取 manifest.json: " .. tostring(merr)
   end
 
-  -- 参数逐个转义
+  local start_cmd = manifest["windows-start"]
+  if not start_cmd or start_cmd == "" then
+    return false, "[!] 该插件未配置 windows-start"
+  end
+
+  -- 参数转义
   local parts = {}
   for _, a in ipairs(args or {}) do
     parts[#parts + 1] = core.shell_escape(a)
   end
 
-  local cmd = "sh " .. core.shell_escape(script_path)
+  -- 切换到插件目录执行启动命令
+  local cmd = 'cd /d "' .. plugin_dir .. '" && ' .. start_cmd
   if #parts > 0 then cmd = cmd .. " " .. table.concat(parts, " ") end
 
-  local ok, how, code = os.execute(cmd)
+  local ok, _, code = os.execute(cmd)
   if not ok then
-    return false, "[!] 启动脚本执行失败, 退出码: " .. tostring(code)
+    return false, "[!] 启动失败, 退出码: " .. tostring(code)
   end
   return true, nil
 end

@@ -30,7 +30,7 @@ Config.PLUGINS_DIR = Config.ROOT .. "/extensions"
 Config.SELF = "yyfloat"
 
 --- 当前平台标识（用于选择远端清单）
-Config.SYSTEM = "Linux_aarch64"
+Config.SYSTEM = "Linux_aarch64_android"
 
 --- 插件元数据清单文件
 Config.PLUGINS_LIST = Config.ROOT .. "/ext_list.json"
