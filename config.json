@@ -1,0 +1,30 @@
+{
+  "Linux_amd64": {
+    "version": "26.1.0-alpha",
+    "date": "2026-09-28",
+    "description": "预发布版本，正在公测，很多功能暂未上线，不提供长期支持",
+    "size": "6.4MB",
+    "url": "https://evo-blog-by-linghan.eu.cc:10406/downloads/linux/yyfloat-x86_64-linux-gnu"
+  },
+  "Linux_aarch64": {
+    "version": "26.1.0-alpha",
+    "date": "2026-09-28",
+    "description": "预发布版本，正在公测，很多功能暂未上线，不提供长期支持",
+    "size": "8.5MB",
+    "url": "https://evo-blog-by-linghan.eu.cc:10406/downloads/linux/yyfloat-aarch64-linux-gnu"
+  },
+  "Linux_aarch64_android": {
+    "version": "26.1.0-alpha",
+    "date": "2026-09-28",
+    "description": "预发布版本，正在公测，很多功能暂未上线，不提供长期支持",
+    "size": "792.77KB",
+    "url": "https://evo-blog-by-linghan.eu.cc:10406/downloads/linux/yyfloat-android-linux-bionic"
+  },
+  "Windows": {
+    "version": "26.1.0-alpha",
+    "date": "2026-09-28",
+    "description": "预发布版本，正在公测，很多功能暂未上线，不提供长期支持",
+    "size": "1.1MB",
+    "url": "https://evo-blog-by-linghan.eu.cc:10406/downloads/windows/yyfloat-x86_64-windows.exe"
+  }
+}
